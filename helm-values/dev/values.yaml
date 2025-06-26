@@ -488,7 +488,7 @@ data:
     db: postgres
     sslmode: disable
   # resultBackendConnection defaults to the same database as metadataConnection
-  resultBackendConnection: ~
+  # resultBackendConnection: ~
   # or, you can use a different database
   # resultBackendConnection:
   #   user: postgres
