@@ -1546,7 +1546,7 @@ webserver:
         - name: GITSYNC_MAX_FAILURES
           value: "0"
         - name: GIT_SYNC_ONE_TIME
-          value: "true"
+          value: "false"
         - name: GITSYNC_ONE_TIME
           value: "true"
       volumeMounts:
@@ -2808,7 +2808,6 @@ dags:
     maxFailures: 0
     subPath: "airflow/ironman/dags/dev"
     period: 60s
-    link: "."
     wait: ~
     envFrom: ~
     containerName: git-sync
