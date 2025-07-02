@@ -1535,6 +1535,8 @@ webserver:
           value: "0"
         - name: GIT_SYNC_ONE_TIME
           value: "false"
+        - name: GITSYNC_LINK
+          value: "."        
       volumeMounts:
         - name: dags
           mountPath: /git
@@ -2792,7 +2794,7 @@ dags:
     ref: main
     depth: 1
     maxFailures: 0
-    subPath: "airflow/ironman/dags/dev"
+    subPath: "ironman/dags/dev"
     period: 60s
     wait: ~
     envFrom: ~
