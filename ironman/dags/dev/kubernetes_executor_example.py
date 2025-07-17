@@ -1,7 +1,6 @@
-from datetime import datetime
 from airflow import DAG
 from airflow.operators.bash import BashOperator
-from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
+from airflow.utils.dates import days_ago
 
 default_args = {
     'owner': 'airflow',
@@ -10,32 +9,27 @@ default_args = {
 with DAG(
     dag_id='kubernetes_executor_example',
     default_args=default_args,
-    description='DAG ที่ใช้ KubernetesPodOperator รันทุก 1 นาที',
-    schedule_interval='* * * * *',  # ทุก 1 นาที
-    start_date=datetime(2023, 1, 1),  # ตั้งเป็นอดีตแน่นอน
+    description='Simple DAG using KubernetesExecutor (no extra providers)',
+    schedule_interval='*/1 * * * *',
+    start_date=datetime(2025, 7, 17),
     catchup=False,
-    tags=['k8s', 'minute'],
+    tags=['example', 'k8s'],
 ) as dag:
 
     start = BashOperator(
         task_id='start',
-        bash_command='echo "เริ่มต้น DAG ที่รันทุกนาที"',
+        bash_command='echo "Start KubernetesExecutor DAG"',
     )
 
-    run_in_k8s = KubernetesPodOperator(
-        task_id='run_in_kubernetes',
-        name='run-in-kubernetes',
-        namespace='airflow',
-        image='alpine:3.18',
-        cmds=["sh", "-c"],
-        arguments=["echo Hello from inside a Kubernetes Pod! && sleep 5"],
-        get_logs=True,
-        is_delete_operator_pod=True,
+    # ใช้ BashOperator แทน KubernetesPodOperator ชั่วคราว
+    run_in_k8s_simulated = BashOperator(
+        task_id='run_in_k8s_simulated',
+        bash_command='echo "Simulating task inside Kubernetes Pod (no KubernetesPodOperator)" && sleep 5',
     )
 
     finish = BashOperator(
         task_id='finish',
-        bash_command='echo "DAG เสร็จสมบูรณ์"',
+        bash_command='echo "Finished running DAG"',
     )
 
-    start >> run_in_k8s >> finish
+    start >> run_in_k8s_simulated >> finish
