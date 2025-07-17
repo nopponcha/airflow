@@ -1,7 +1,6 @@
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.utils.dates import days_ago
-from datetime import datetime
 
 default_args = {
     'owner': 'airflow',
@@ -11,8 +10,8 @@ with DAG(
     dag_id='kubernetes_executor_example',
     default_args=default_args,
     description='Simple DAG using KubernetesExecutor (no extra providers)',
-    schedule_interval='*/1 * * * *',
-    start_date=datetime(2025, 7, 17),
+    schedule_interval=None,
+    start_date=days_ago(1),
     catchup=False,
     tags=['example', 'k8s'],
 ) as dag:
