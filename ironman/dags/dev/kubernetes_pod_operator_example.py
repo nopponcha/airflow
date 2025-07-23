@@ -50,7 +50,6 @@ with DAG(
     start = BashOperator(
         task_id='start',
         bash_command='echo "Start KubernetesExecutor DAG"',
-        labels=labels_args,
         container_resources=resource_requirements,
     )
 
@@ -70,7 +69,6 @@ with DAG(
     finish = BashOperator(
         task_id='finish',
         bash_command='echo "DAG เสร็จสมบูรณ์"',
-        labels=labels_args,
         container_resources=resource_requirements,
     )
 
