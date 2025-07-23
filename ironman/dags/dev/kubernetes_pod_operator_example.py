@@ -55,7 +55,7 @@ with DAG(
     run_in_k8s = KubernetesPodOperator(
         task_id='run_in_kubernetes',
         name='run-in-kubernetes',
-        namespace='airflow',
+        namespace='ironman-dev',
         image='alpine:3.18',
         cmds=["sh", "-c"],
         arguments=["echo Hello from inside a Kubernetes Pod! && sleep 5"],
