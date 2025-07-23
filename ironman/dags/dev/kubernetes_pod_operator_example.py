@@ -1,7 +1,21 @@
-from datetime import datetime
-from airflow import DAG
 from airflow.operators.bash import BashOperator
-from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from airflow.utils.dates import days_ago
+import json
+import configparser
+import airflow.settings
+from airflow.models import DagModel
+import os
+from typing import Dict
+import importlib.util
+from airflow.operators.python import get_current_context
+from kubernetes.client import models as k8s_models
+from kubernetes.client import models as k8s
+from datetime import datetime, timedelta
+from airflow.operators.dummy_operator import DummyOperator
+from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
+import pytz
 
 default_args = {
     'owner': 'airflow',
