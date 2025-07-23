@@ -50,7 +50,6 @@ with DAG(
     start = BashOperator(
         task_id='start',
         bash_command='echo "Start KubernetesExecutor DAG"',
-        container_resources=resource_requirements,
     )
 
     run_in_k8s = KubernetesPodOperator(
@@ -69,7 +68,6 @@ with DAG(
     finish = BashOperator(
         task_id='finish',
         bash_command='echo "DAG เสร็จสมบูรณ์"',
-        container_resources=resource_requirements,
     )
 
     start >> run_in_k8s >> finish
